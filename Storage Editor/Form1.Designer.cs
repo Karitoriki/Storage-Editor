@@ -61,14 +61,14 @@
             this.dGV_Terraformation.ReadOnly = true;
             this.dGV_Terraformation.RowHeadersVisible = false;
             this.dGV_Terraformation.RowTemplate.Height = 25;
-            this.dGV_Terraformation.Size = new System.Drawing.Size(403, 367);
+            this.dGV_Terraformation.Size = new System.Drawing.Size(502, 367);
             this.dGV_Terraformation.TabIndex = 5;
             // 
             // SafefileAnalyzer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(526, 423);
             this.Controls.Add(this.dGV_Terraformation);
             this.Controls.Add(this.l_player_pos);
             this.Controls.Add(this.b_clipboard);

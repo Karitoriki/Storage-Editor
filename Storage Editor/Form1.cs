@@ -15,11 +15,9 @@ namespace Storage_Editor
         private int[] PlayerPosition = new int[3];
 
         DataTable table = new DataTable();
-        
-
         DataSet dataSet = new DataSet();
-
         DataRow dr;
+
         enum Stats 
         { 
             Oxygen, 
@@ -33,7 +31,8 @@ namespace Storage_Editor
             Stat,
             ActualValue,
             Value,
-            RelativePercent
+            RelativePercent,
+            Multipier
         }
 
         string getSaveGameValue(string searchText, string text, string terminator)
@@ -85,7 +84,7 @@ namespace Storage_Editor
             }
         }
 
-private void b_clipboard_Click(object sender, EventArgs e)
+        private void b_clipboard_Click(object sender, EventArgs e)
         {
             if (Clipboard.ContainsText())
             {
