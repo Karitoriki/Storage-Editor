@@ -60,29 +60,26 @@ namespace Storage_Editor
        
         private void SafefileAnalyzer_Load(object sender, EventArgs e)
         {
-            for (int i = 0; i < 4; i++)
-            {
-                var col = (column)i;
-                table.Columns.Add(col.ToString(), typeof(string));
-            }
+            foreach (string col in Enum.GetNames(typeof(column)))
+                table.Columns.Add(col, typeof(string));
 
             dGV_Terraformation.DataSource = table;//connect Table to Datagrid
             dataSet.Tables.Add(table);//connect table to dataSet
 
-            for (int i = 0; i < Enum.GetNames(typeof(Stats)).Length; i++)
+            foreach (string Stat in Enum.GetNames(typeof(Stats)))
             {
                 dr = table.NewRow();
-                dr[0] = (Stats)i;
+                dr[0] = Stat;
                 table.Rows.Add(dr);
             }
-            changeTableValue((Stats)0,);
         }
+
         void changeTableValue(string Stat,string valuetype, string value){
             foreach(DataRow dr in table.Rows) // search whole table
             {
-                if(dr["Stat"] == Stat) // if id==2
+                if(dr["Stat"] == Stat) // if Row = Input
                 {
-                    dr["Product_name"] = "cde"; //change the name
+                    dr[valuetype] = value; //change the name
                     break;
                 }
             }
@@ -90,7 +87,7 @@ namespace Storage_Editor
 
 private void b_clipboard_Click(object sender, EventArgs e)
         {
-           /* if (Clipboard.ContainsText())
+            if (Clipboard.ContainsText())
             {
                 sections = Clipboard.GetText().Split("@");
                 if (sections != null)
@@ -98,17 +95,19 @@ private void b_clipboard_Click(object sender, EventArgs e)
                     string[] searchValues = new string[4] { "unitOxygenLevel", "unitHeatLevel", "unitPressureLevel", "unitBiomassLevel" };
                     for (int i = 0; i < searchValues.Length; i++)
                     {
-                        dGV_Terraformation.
                         Terraindex[i] = Convert.ToInt64(getSaveGameValue(searchValues[i]+"\":", sections[0], "."));
                         Terraindex[4] += Terraindex[i];
-                        Terradata[i].Text += Terraindex[i].ToString();
-                        Terradata[4].Text = "TI: "+Terraindex[4];
+                        //Terradata[i].Text = Terraindex[i].ToString();
+                        //Terradata[4].Text = +Terraindex[4];
+                        changeTableValue(Enum.GetName(typeof(Stats), i), "ActualValue", Terraindex[i].ToString());
+                        changeTableValue(Enum.GetName(typeof(Stats), 4), "ActualValue", Terraindex[4].ToString());
                     }
+
                     PlayerPosition = getPlayerPosition(sections[1]);
                     l_player_pos.Text += getSaveGameValue("playerPosition\":\"", sections[1], "\"");
                     
                 }
-            }*/
+            }
         }
         
     }
