@@ -55,7 +55,7 @@ namespace Storage_Editor
         {
             string[] _dummy = getSaveGameValue("player"+PosRot+"\":\"", section, "\"").Split(",");
             int[] _playerpos = new int[_dummy.Length];
-            for (int i = 0; i < _dummy.Length; i++) _playerpos[i] = Convert.ToInt32(Convert.ToDouble(dummy[i], new CultureInfo("en-US")));
+            for (int i = 0; i < _dummy.Length; i++) _playerpos[i] = Convert.ToInt32(Convert.ToDouble(_dummy[i], new CultureInfo("en-US")));
             return _playerpos;
         }
        
