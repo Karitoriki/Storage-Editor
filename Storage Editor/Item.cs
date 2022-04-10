@@ -8,14 +8,45 @@ namespace Storage_Editor
 {
     internal class Item
     {
-        private int id;
-        private string gId;
-        private int liId;
-        private int[] pos = new int[3];
-        private int[] rot = new int[3];
-        private int wear;
-        private int[] pnls;
-        private string text;
-        private int grwth;
+        private int _id;
+        private string _gId;
+        private int _liId;
+        private int[] _pos = new int[3];
+        private int[] _rot = new int[3];
+        private int _wear;
+        private int[] _pnls;
+        private string _text;
+        private int _grwth;
+        public Item(int id, string gId, int liId, int[] pos, int[] rot, int wear, int[] pnls, string text, int grwth)
+        {
+            _id = id;
+            _gId = gId;
+            _liId = liId;
+            _pos = pos;
+            _rot = rot;
+            _wear = wear;
+            _pnls = pnls;
+            _text = text;
+            _grwth = grwth;
+        }
+        public int Id
+            { get { return _id; } }
+        public string GId
+            { get { return _gId; } }
+        public int LiId
+            { get { return _liId; } }
+        public int[] Pos
+            { get { return _pos; } }
+        public int[] Rot
+            { get { return _rot; } }
+        public int Wear
+            { get { return _wear; } }
+        public int[] Pnls
+            { get { return _pnls; } }
+        public string Text
+            { get { return _text; } }
+        public int Grwth
+            { get { return _grwth; } }
+
     }
 }

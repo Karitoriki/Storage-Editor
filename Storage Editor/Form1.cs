@@ -13,6 +13,8 @@ namespace Storage_Editor
         private string[] sections=new string[9];
         private long[] Terraindex = new long[5] { 0, 0, 0, 0, 0 };
         private int[] PlayerPosition = new int[3];
+        Player player;
+        Terrastat[] Terrainformation = new Terrastat[5];
 
         DataTable table = new DataTable();
         DataSet dataSet = new DataSet();
@@ -49,12 +51,12 @@ namespace Storage_Editor
             return text;
         }
 
-        int[] getPlayerPosition(string section)
+        int[] getPlayerPosition(string section,string PosRot)
         {
-            string[] dummy = getSaveGameValue("playerPosition\":\"", section, "\"").Split(",");
-            int[] playerpos = new int[dummy.Length];
-            for (int i = 0; i < dummy.Length; i++) playerpos[i] = Convert.ToInt32(Convert.ToDouble(dummy[i], new CultureInfo("en-US")));
-            return playerpos;
+            string[] _dummy = getSaveGameValue("player"+PosRot+"\":\"", section, "\"").Split(",");
+            int[] _playerpos = new int[_dummy.Length];
+            for (int i = 0; i < _dummy.Length; i++) _playerpos[i] = Convert.ToInt32(Convert.ToDouble(dummy[i], new CultureInfo("en-US")));
+            return _playerpos;
         }
        
         private void SafefileAnalyzer_Load(object sender, EventArgs e)
@@ -91,18 +93,17 @@ namespace Storage_Editor
                 sections = Clipboard.GetText().Split("@");
                 if (sections != null)
                 {
-                    string[] searchValues = new string[4] { "unitOxygenLevel", "unitHeatLevel", "unitPressureLevel", "unitBiomassLevel" };
-                    for (int i = 0; i < searchValues.Length; i++)
+                    string[] Statunits = new string[5] { "ppq,ppt,ppb,ppm,pcm", "ppq,ppt,ppb,ppm,pcm", "ppq,ppt,ppb,ppm,pcm", "ppq,ppt,ppb,ppm,pcm", "ppq,ppt,ppb,ppm,pcm" };
+                    Terrainformation[4] = new Terrastat(Enum.GetName(typeof(Stats), 4), 0, Statunits[4].Split(","));
+                    for (int i = 0; i < 4; i++)
                     {
-                        Terraindex[i] = Convert.ToInt64(getSaveGameValue(searchValues[i]+"\":", sections[0], "."));
+                        Terrainformation[i] = new Terrastat(Enum.GetName(typeof(Stats), i), Convert.ToInt64(getSaveGameValue("unit" + (Stats)i + "Level\":", sections[0], ".")), Statunits[i].Split(","));
                         Terraindex[4] += Terraindex[i];
-                        //Terradata[i].Text = Terraindex[i].ToString();
-                        //Terradata[4].Text = +Terraindex[4];
                         changeTableValue(Enum.GetName(typeof(Stats), i), "ActualValue", Terraindex[i].ToString());
                         changeTableValue(Enum.GetName(typeof(Stats), 4), "ActualValue", Terraindex[4].ToString());
                     }
-
-                    PlayerPosition = getPlayerPosition(sections[1]);
+                    Statunits = null;
+                    player = new Player(getPlayerPosition(sections[1], "Position"), getPlayerPosition(sections[1], "Rotation"), getSaveGameValue("unlockedGroups\":\"",sections[1],"\"").Split(","));
                     l_player_pos.Text += getSaveGameValue("playerPosition\":\"", sections[1], "\"");
                     
                 }
