@@ -11,21 +11,25 @@ namespace Storage_Editor
         private int _id;
         private string _gId;
         private int _liId;
+        private string _liGrps;
         private int[] _pos = new int[3];
         private int[] _rot = new int[3];
         private int _wear;
         private int[] _pnls;
+        private string _color;
         private string _text;
         private int _grwth;
-        public Item(int id, string gId, int liId, int[] pos, int[] rot, int wear, int[] pnls, string text, int grwth)
+        public Item(int id, string gId, int liId, string liGrps, int[] pos, int[] rot, int wear, int[] pnls, string color, string text, int grwth)
         {
             _id = id;
             _gId = gId;
             _liId = liId;
+            _liGrps = liGrps;
             _pos = pos;
             _rot = rot;
             _wear = wear;
             _pnls = pnls;
+            _color = color;
             _text = text;
             _grwth = grwth;
         }

@@ -11,8 +11,6 @@ namespace Storage_Editor
             InitializeComponent();
         }
         private string[] sections=new string[9];
-        private long[] Terraindex = new long[5] { 0, 0, 0, 0, 0 };
-        private int[] PlayerPosition = new int[3];
         Player player;
         Terrastat[] Terrainformation = new Terrastat[5];
 
@@ -93,19 +91,39 @@ namespace Storage_Editor
                 sections = Clipboard.GetText().Split("@");
                 if (sections != null)
                 {
-                    string[] Statunits = new string[5] { "ppq,ppt,ppb,ppm,pcm", "ppq,ppt,ppb,ppm,pcm", "ppq,ppt,ppb,ppm,pcm", "ppq,ppt,ppb,ppm,pcm", "ppq,ppt,ppb,ppm,pcm" };
-                    Terrainformation[4] = new Terrastat(Enum.GetName(typeof(Stats), 4), 0, Statunits[4].Split(","));
+                    string[] Statunits = new string[5] { "ppq,ppt,ppb,ppm,pcm", "ppq,ppt,nK,ppm,K", "ppq,ppt,ppb,ppm,pcm", "ppq,ppt,ppb,ppm,pcm", "ppq,ppt,ppb,ppm,pcm" };
+                    Terrainformation[4] = new Terrastat(nameof(Stats.Terraformation), 0, Statunits[4].Split(","));
                     for (int i = 0; i < 4; i++)
                     {
                         Terrainformation[i] = new Terrastat(Enum.GetName(typeof(Stats), i), Convert.ToInt64(getSaveGameValue("unit" + (Stats)i + "Level\":", sections[0], ".")), Statunits[i].Split(","));
-                        Terraindex[4] += Terraindex[i];
-                        changeTableValue(Enum.GetName(typeof(Stats), i), "ActualValue", Terraindex[i].ToString());
-                        changeTableValue(Enum.GetName(typeof(Stats), 4), "ActualValue", Terraindex[4].ToString());
+                        Terrainformation[4].Stat += Terrainformation[i].Stat;
+                        changeTableValue(Enum.GetName(typeof(Stats), i), "ActualValue", Terrainformation[i].Stat.ToString());
                     }
-                    Statunits = null;
+                    changeTableValue(Enum.GetName(typeof(Stats), 4), "ActualValue", Terrainformation[4].Stat.ToString());
+
+
                     player = new Player(getPlayerPosition(sections[1], "Position"), getPlayerPosition(sections[1], "Rotation"), getSaveGameValue("unlockedGroups\":\"",sections[1],"\"").Split(","));
-                    l_player_pos.Text += getSaveGameValue("playerPosition\":\"", sections[1], "\"");
-                    
+                    l_player_pos.Text += " "+Math.Round(Convert.ToDecimal(player.Position(0)), 0).ToString() + ", " + Math.Round(Convert.ToDecimal(player.Position(1)), 0).ToString() + ", " + Math.Round(Convert.ToDecimal(player.Position(2)), 0).ToString();
+
+                    string[] itemstrings = sections[2].TrimStart('\r').TrimStart('\n').Split("\n");
+                    Item[] items=new Item[itemstrings.Length];
+                    for (int i = 0; i < itemstrings.Length; i++)
+                    {
+                        items[i] = new Item
+                            (
+                            Convert.ToInt32(getSaveGameValue("\"id\":", itemstrings[i], ",")),
+                            getSaveGameValue("\"gId\":", itemstrings[i], ","),
+                            Convert.ToInt32(getSaveGameValue("\"liId\":", itemstrings[i], ",")),
+                            getSaveGameValue("\"liGrps\":", itemstrings[i], ","),
+                            Convert.ToInt32(getSaveGameValue("\"pos\":", itemstrings[i], ",").Split(",")),
+                            Convert.ToInt32(getSaveGameValue("\"rot\":", itemstrings[i], ",").Split(",")),
+                            Convert.ToInt32(getSaveGameValue("\"wear\":", itemstrings[i], ",")),
+                            Convert.ToInt32(getSaveGameValue("\"pnls\":", itemstrings[i], ",").Split(",")),
+                            getSaveGameValue("\"color\":", itemstrings[i], ","),
+                            getSaveGameValue("\"text\":", itemstrings[i], ","),
+                            Convert.ToInt32(getSaveGameValue("\"grwth\":", itemstrings[i], ","))
+                            );
+                    }
                 }
             }
         }
