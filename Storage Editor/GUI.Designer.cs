@@ -31,6 +31,7 @@
             this.b_clipboard = new System.Windows.Forms.Button();
             this.l_player_pos = new System.Windows.Forms.Label();
             this.dGV_Terraformation = new System.Windows.Forms.DataGridView();
+            this.cB_Items = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.dGV_Terraformation)).BeginInit();
             this.SuspendLayout();
             // 
@@ -67,11 +68,21 @@
             this.dGV_Terraformation.Size = new System.Drawing.Size(503, 175);
             this.dGV_Terraformation.TabIndex = 5;
             // 
+            // cB_Items
+            // 
+            this.cB_Items.FormattingEnabled = true;
+            this.cB_Items.Location = new System.Drawing.Point(12, 222);
+            this.cB_Items.Name = "cB_Items";
+            this.cB_Items.Size = new System.Drawing.Size(179, 23);
+            this.cB_Items.TabIndex = 6;
+            this.cB_Items.DropDownClosed += new System.EventHandler(this.cB_Items_DropDownClosed);
+            // 
             // SafefileAnalyzer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(526, 423);
+            this.Controls.Add(this.cB_Items);
             this.Controls.Add(this.dGV_Terraformation);
             this.Controls.Add(this.l_player_pos);
             this.Controls.Add(this.b_clipboard);
@@ -89,5 +100,6 @@
         private Button b_clipboard;
         private Label l_player_pos;
         private DataGridView dGV_Terraformation;
+        private ComboBox cB_Items;
     }
 }

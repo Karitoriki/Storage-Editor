@@ -6,25 +6,28 @@ namespace Storage_Editor
 {
     public partial class SafefileAnalyzer : Form
     {
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         public SafefileAnalyzer()
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         {
             InitializeComponent();
         }
         private string[] sections=new string[9];
         Player player;
         Terrastat[] Terrainformation = new Terrastat[5];
+        Item[] items;
 
         DataTable table = new DataTable();
         DataSet dataSet = new DataSet();
         DataRow dr;
 
         enum Stats 
-        { 
-            Oxygen, 
-            Heat, 
-            Pressure, 
-            Biomass, 
-            Terraformation
+        {
+            Oxygen = 0,
+            Heat = 1,
+            Pressure = 2,
+            Biomass = 3,
+            Terraformation = 4
         }
         enum column
         {
@@ -35,7 +38,7 @@ namespace Storage_Editor
             Multipier
         }
 
-        string getSaveGameValue(string searchText, string text, string terminator)
+        private string getSaveGameValue(string searchText, string text, string terminator)
         {
             int pos = text.IndexOf(searchText);
             if (pos == -1)return "";
@@ -49,7 +52,7 @@ namespace Storage_Editor
             return text;
         }
 
-        int[] stringA2intA(string[] _dummy)
+        private int[] stringA2intA(string[] _dummy)
         {
             int[] _i = new int[0];
             if (string.IsNullOrEmpty(_dummy[0])) return _i;
@@ -68,25 +71,18 @@ namespace Storage_Editor
             dGV_Terraformation.DataSource = table;//connect Table to Datagrid
             dataSet.Tables.Add(table);//connect table to dataSet
 
-            /*foreach (string Stat in Enum.GetNames(typeof(Stats)))
+            foreach (string Stat in Enum.GetNames(typeof(Stats)))
             {
                 dr = table.NewRow();
                 dr[0] = Stat;
                 table.Rows.Add(dr);
-            }*/
-            for (int i = 0; i < 5; i++)
-            {
-                dr = table.NewRow();
-                dr[0] = Enum.GetName(typeof(Stats), i);
-                table.Rows.Add(dr);
             }
-            //dGV_Terraformation.Rows.RemoveAt(5);
         }
 
-        void changeTableValue(string Stat,string valuetype, string value){
+        private void changeTableValue(string Stat,string valuetype, string value){
             foreach(DataRow dr in table.Rows) // search whole table
             {
-                if(dr["Stat"] == Stat) // if Row = Input
+                if(dr["Stat"].ToString() == Stat) // if Row = Input
                 {
                     dr[valuetype] = value; //change the name
                     break;
@@ -101,28 +97,32 @@ namespace Storage_Editor
             if (Clipboard.ContainsText())
             {
                 sections = Clipboard.GetText().Split("@");
-                if (sections != null)
+                if (sections != null && sections.Contains("@"))
                 {
                     string[] Statunits = new string[5] { "ppq,ppt,ppb,ppm,pcm", "pK,nK,µK,mK,K", "nPa,µPa,mPa,Pa,pcm", "g,kg,t,kt,mt", "Ti,kTi,MTi,GTi,TTi" };
                     Terrainformation[4] = new Terrastat(nameof(Stats.Terraformation), 0, Statunits[4].Split(","));
                     for (int i = 0; i < 4; i++)
                     {
+#pragma warning disable CS8604 // Possible null reference argument.
                         Terrainformation[i] = new Terrastat(Enum.GetName(typeof(Stats), i), Convert.ToInt64(getSaveGameValue("unit" + (Stats)i + "Level\":", sections[0], ".")), Statunits[i].Split(","));
                         Terrainformation[4].Stat += Terrainformation[i].Stat;
+
                         changeTableValue(Enum.GetName(typeof(Stats), i), Enum.GetName(column.ActualValue), Terrainformation[i].Stat.ToString());
                     }
                     for (int i = 0; i < 4; i++)
                     {
                         changeTableValue(Enum.GetName(typeof(Stats), i), Enum.GetName(column.RelativePercent), Terrainformation[i].Percentage(Terrainformation[4].Stat));
                     }
-                        changeTableValue(Enum.GetName(typeof(Stats), 4), "ActualValue", Terrainformation[4].Stat.ToString());
+                    changeTableValue(Enum.GetName(typeof(Stats), 4), "ActualValue", Terrainformation[4].Stat.ToString());
+#pragma warning restore CS8604 // Possible null reference argument.
 
 
                     player = new Player(stringA2intA(getSaveGameValue("playerPosition\":\"", sections[1], "\"").Split(",")), stringA2intA(getSaveGameValue("playerRotation\":\"", sections[1], "\"").Split(",")), getSaveGameValue("unlockedGroups\":\"", sections[1], "\"").Split(","));
                     l_player_pos.Text += " " + Math.Round(Convert.ToDecimal(player.Position(0)), 0).ToString() + ", " + Math.Round(Convert.ToDecimal(player.Position(1)), 0).ToString() + ", " + Math.Round(Convert.ToDecimal(player.Position(2)), 0).ToString();
 
                     string[] itemstrings = sections[2].TrimStart('\r').TrimStart('\n').Split("\n");
-                    Item[] items = new Item[itemstrings.Length];
+                    items = new Item[itemstrings.Length];
+                    List<string> names = new List<string>();
                     for (int i = 0; i < itemstrings.Length; i++)
                     {
                         items[i] = new Item
@@ -139,7 +139,9 @@ namespace Storage_Editor
                             getSaveGameValue("\"text\":\"", itemstrings[i], "\","),
                             Convert.ToInt32(getSaveGameValue("\"grwth\":", itemstrings[i], "}"))
                         );
+                        if (!names.Contains(items[i].GId)) names.Add(items[i].GId);
                     }
+                    foreach (string name in names) cB_Items.Items.Add(name);
                     /*itemstrings = sections[3].TrimStart('\r').TrimStart('\n').Split("\n");
                     Container[] containers = new Container[itemstrings.Length];
                     for (int i = 0; i < itemstrings.Length; i++)
@@ -153,8 +155,18 @@ namespace Storage_Editor
                         );
                     }*/
                 }
+                else MessageBox.Show("ERROR:\r\nWrong clipboard format!");
             }
         }
         
+
+        private void cB_Items_DropDownClosed(object sender, EventArgs e)
+        {
+            int count = 0;
+            foreach (Item item in items)
+            {
+                if(item.GId==cB_Items.SelectedItem.ToString())count++;
+            }
+        }
     }
 }
