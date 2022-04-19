@@ -64,15 +64,23 @@ namespace Storage_Editor
             foreach (string col in Enum.GetNames(typeof(column)))
                 table.Columns.Add(col, typeof(string));
 
+            
             dGV_Terraformation.DataSource = table;//connect Table to Datagrid
             dataSet.Tables.Add(table);//connect table to dataSet
 
-            foreach (string Stat in Enum.GetNames(typeof(Stats)))
+            /*foreach (string Stat in Enum.GetNames(typeof(Stats)))
             {
                 dr = table.NewRow();
                 dr[0] = Stat;
                 table.Rows.Add(dr);
+            }*/
+            for (int i = 0; i < 5; i++)
+            {
+                dr = table.NewRow();
+                dr[0] = Enum.GetName(typeof(Stats), i);
+                table.Rows.Add(dr);
             }
+            //dGV_Terraformation.Rows.RemoveAt(5);
         }
 
         void changeTableValue(string Stat,string valuetype, string value){
@@ -95,15 +103,19 @@ namespace Storage_Editor
                 sections = Clipboard.GetText().Split("@");
                 if (sections != null)
                 {
-                    string[] Statunits = new string[5] { "ppq,ppt,ppb,ppm,pcm", "ppq,ppt,nK,ppm,K", "ppq,ppt,ppb,ppm,pcm", "ppq,ppt,ppb,ppm,pcm", "ppq,ppt,ppb,ppm,pcm" };
+                    string[] Statunits = new string[5] { "ppq,ppt,ppb,ppm,pcm", "pK,nK,µK,mK,K", "nPa,µPa,mPa,Pa,pcm", "g,kg,t,kt,mt", "Ti,kTi,MTi,GTi,TTi" };
                     Terrainformation[4] = new Terrastat(nameof(Stats.Terraformation), 0, Statunits[4].Split(","));
                     for (int i = 0; i < 4; i++)
                     {
                         Terrainformation[i] = new Terrastat(Enum.GetName(typeof(Stats), i), Convert.ToInt64(getSaveGameValue("unit" + (Stats)i + "Level\":", sections[0], ".")), Statunits[i].Split(","));
                         Terrainformation[4].Stat += Terrainformation[i].Stat;
-                        changeTableValue(Enum.GetName(typeof(Stats), i), "ActualValue", Terrainformation[i].Stat.ToString());
+                        changeTableValue(Enum.GetName(typeof(Stats), i), Enum.GetName(column.ActualValue), Terrainformation[i].Stat.ToString());
                     }
-                    changeTableValue(Enum.GetName(typeof(Stats), 4), "ActualValue", Terrainformation[4].Stat.ToString());
+                    for (int i = 0; i < 4; i++)
+                    {
+                        changeTableValue(Enum.GetName(typeof(Stats), i), Enum.GetName(column.RelativePercent), Terrainformation[i].Percentage(Terrainformation[4].Stat));
+                    }
+                        changeTableValue(Enum.GetName(typeof(Stats), 4), "ActualValue", Terrainformation[4].Stat.ToString());
 
 
                     player = new Player(stringA2intA(getSaveGameValue("playerPosition\":\"", sections[1], "\"").Split(",")), stringA2intA(getSaveGameValue("playerRotation\":\"", sections[1], "\"").Split(",")), getSaveGameValue("unlockedGroups\":\"", sections[1], "\"").Split(","));
@@ -128,7 +140,7 @@ namespace Storage_Editor
                             Convert.ToInt32(getSaveGameValue("\"grwth\":", itemstrings[i], "}"))
                         );
                     }
-                    itemstrings = sections[3].TrimStart('\r').TrimStart('\n').Split("\n");
+                    /*itemstrings = sections[3].TrimStart('\r').TrimStart('\n').Split("\n");
                     Container[] containers = new Container[itemstrings.Length];
                     for (int i = 0; i < itemstrings.Length; i++)
                     {
@@ -139,7 +151,7 @@ namespace Storage_Editor
                             Convert.ToInt32(getSaveGameValue("\"liId\":", itemstrings[i], "}"))
                             
                         );
-                    }
+                    }*/
                 }
             }
         }

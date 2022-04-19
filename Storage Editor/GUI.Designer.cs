@@ -55,13 +55,16 @@
             // 
             // dGV_Terraformation
             // 
+            this.dGV_Terraformation.AllowUserToResizeColumns = false;
+            this.dGV_Terraformation.AllowUserToResizeRows = false;
             this.dGV_Terraformation.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dGV_Terraformation.Location = new System.Drawing.Point(12, 41);
             this.dGV_Terraformation.Name = "dGV_Terraformation";
             this.dGV_Terraformation.ReadOnly = true;
             this.dGV_Terraformation.RowHeadersVisible = false;
             this.dGV_Terraformation.RowTemplate.Height = 25;
-            this.dGV_Terraformation.Size = new System.Drawing.Size(502, 367);
+            this.dGV_Terraformation.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.dGV_Terraformation.Size = new System.Drawing.Size(503, 175);
             this.dGV_Terraformation.TabIndex = 5;
             // 
             // SafefileAnalyzer
