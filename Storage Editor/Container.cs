@@ -12,9 +12,11 @@ namespace Storage_Editor
         private int _id;
         private List<Item> _items = new List<Item>();
         private int _size;
-        public Container(int pid)
+        public Container(int pid, Item[] items, int size)
         {
             _id = pid;
+            foreach (Item item in items) _items.Add(item);
+            _size = size;
         }
         public int Size
         {

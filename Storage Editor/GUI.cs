@@ -49,9 +49,11 @@ namespace Storage_Editor
             return text;
         }
 
-        int[] getPlayerPosition(string section,string PosRot)
+        int[] stringA2intA(string[] _dummy)
         {
-            string[] _dummy = getSaveGameValue("player"+PosRot+"\":\"", section, "\"").Split(",");
+            int[] _i = new int[0];
+            if (string.IsNullOrEmpty(_dummy[0])) return _i;
+
             int[] _playerpos = new int[_dummy.Length];
             for (int i = 0; i < _dummy.Length; i++) _playerpos[i] = Convert.ToInt32(Convert.ToDouble(_dummy[i], new CultureInfo("en-US")));
             return _playerpos;
@@ -84,6 +86,8 @@ namespace Storage_Editor
             }
         }
 
+
+
         private void b_clipboard_Click(object sender, EventArgs e)
         {
             if (Clipboard.ContainsText())
@@ -102,27 +106,39 @@ namespace Storage_Editor
                     changeTableValue(Enum.GetName(typeof(Stats), 4), "ActualValue", Terrainformation[4].Stat.ToString());
 
 
-                    player = new Player(getPlayerPosition(sections[1], "Position"), getPlayerPosition(sections[1], "Rotation"), getSaveGameValue("unlockedGroups\":\"",sections[1],"\"").Split(","));
-                    l_player_pos.Text += " "+Math.Round(Convert.ToDecimal(player.Position(0)), 0).ToString() + ", " + Math.Round(Convert.ToDecimal(player.Position(1)), 0).ToString() + ", " + Math.Round(Convert.ToDecimal(player.Position(2)), 0).ToString();
+                    player = new Player(stringA2intA(getSaveGameValue("playerPosition\":\"", sections[1], "\"").Split(",")), stringA2intA(getSaveGameValue("playerRotation\":\"", sections[1], "\"").Split(",")), getSaveGameValue("unlockedGroups\":\"", sections[1], "\"").Split(","));
+                    l_player_pos.Text += " " + Math.Round(Convert.ToDecimal(player.Position(0)), 0).ToString() + ", " + Math.Round(Convert.ToDecimal(player.Position(1)), 0).ToString() + ", " + Math.Round(Convert.ToDecimal(player.Position(2)), 0).ToString();
 
                     string[] itemstrings = sections[2].TrimStart('\r').TrimStart('\n').Split("\n");
-                    Item[] items=new Item[itemstrings.Length];
+                    Item[] items = new Item[itemstrings.Length];
                     for (int i = 0; i < itemstrings.Length; i++)
                     {
                         items[i] = new Item
-                            (
+                        (
                             Convert.ToInt32(getSaveGameValue("\"id\":", itemstrings[i], ",")),
-                            getSaveGameValue("\"gId\":", itemstrings[i], ","),
+                            getSaveGameValue("\"gId\":\"", itemstrings[i], "\","),
                             Convert.ToInt32(getSaveGameValue("\"liId\":", itemstrings[i], ",")),
-                            getSaveGameValue("\"liGrps\":", itemstrings[i], ","),
-                            Convert.ToInt32(getSaveGameValue("\"pos\":", itemstrings[i], ",").Split(",")),
-                            Convert.ToInt32(getSaveGameValue("\"rot\":", itemstrings[i], ",").Split(",")),
+                            getSaveGameValue("\"liGrps\":\"", itemstrings[i], "\","),
+                            stringA2intA(getSaveGameValue("\"pos\":\"", itemstrings[i], "\",").Split(",")),
+                            stringA2intA(getSaveGameValue("\"rot\":\"", itemstrings[i], "\",").Split(",")),
                             Convert.ToInt32(getSaveGameValue("\"wear\":", itemstrings[i], ",")),
-                            Convert.ToInt32(getSaveGameValue("\"pnls\":", itemstrings[i], ",").Split(",")),
-                            getSaveGameValue("\"color\":", itemstrings[i], ","),
-                            getSaveGameValue("\"text\":", itemstrings[i], ","),
-                            Convert.ToInt32(getSaveGameValue("\"grwth\":", itemstrings[i], ","))
-                            );
+                            stringA2intA(getSaveGameValue("\"pnls\":\"", itemstrings[i], "\",").Split(",")),
+                            getSaveGameValue("\"color\":\"", itemstrings[i], "\","),
+                            getSaveGameValue("\"text\":\"", itemstrings[i], "\","),
+                            Convert.ToInt32(getSaveGameValue("\"grwth\":", itemstrings[i], "}"))
+                        );
+                    }
+                    itemstrings = sections[3].TrimStart('\r').TrimStart('\n').Split("\n");
+                    Container[] containers = new Container[itemstrings.Length];
+                    for (int i = 0; i < itemstrings.Length; i++)
+                    {
+                        containers[i] = new Container
+                        (
+                            Convert.ToInt32(getSaveGameValue("\"id\":", itemstrings[i], ",")),
+                            stringA2intA(getSaveGameValue("\"woIds\":\"", itemstrings[i], "\",").Split(",")),
+                            Convert.ToInt32(getSaveGameValue("\"liId\":", itemstrings[i], "}"))
+                            
+                        );
                     }
                 }
             }
