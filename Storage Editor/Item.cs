@@ -8,17 +8,18 @@ namespace Storage_Editor
 {
     internal class Item
     {
-        private int _id;
-        private string _gId;
-        private int _liId;
+        private int _id;//item id
+        private string _gId;//item name
+        private int _liId;//container refferal
         private string _liGrps;
-        private int[] _pos = new int[3];
-        private int[] _rot = new int[3];
+        private Container _container;
+        private int[] _pos = new int[3];//Obvious
+        private int[] _rot = new int[3];//Obvious
         private int _wear;
-        private int[] _pnls;
+        private int[] _pnls;//Panels on the side of buildings
         private string _color;
-        private string _text;
-        private int _grwth;
+        private string _text;//containers
+        private int _grwth;//seed spreaders
         public Item(int id, string gId, int liId, string liGrps, int[] pos, int[] rot, int wear, int[] pnls, string color, string text, int grwth)
         {
             _id = id;

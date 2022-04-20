@@ -97,7 +97,7 @@ namespace Storage_Editor
             if (Clipboard.ContainsText())
             {
                 sections = Clipboard.GetText().Split("@");
-                if (sections != null && sections.Contains("@"))
+                if (sections != null)
                 {
                     string[] Statunits = new string[5] { "ppq,ppt,ppb,ppm,pcm", "pK,nK,µK,mK,K", "nPa,µPa,mPa,Pa,pcm", "g,kg,t,kt,mt", "Ti,kTi,MTi,GTi,TTi" };
                     Terrainformation[4] = new Terrastat(nameof(Stats.Terraformation), 0, Statunits[4].Split(","));
@@ -155,8 +155,8 @@ namespace Storage_Editor
                         );
                     }*/
                 }
-                else MessageBox.Show("ERROR:\r\nWrong clipboard format!");
             }
+            else MessageBox.Show("ERROR:\r\nWrong clipboard format!");
         }
         
 
@@ -167,6 +167,7 @@ namespace Storage_Editor
             {
                 if(item.GId==cB_Items.SelectedItem.ToString())count++;
             }
+            l_itemsInWorld.Text = "Amount of Items in World: "+count.ToString();
         }
     }
 }

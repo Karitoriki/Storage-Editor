@@ -32,6 +32,7 @@
             this.l_player_pos = new System.Windows.Forms.Label();
             this.dGV_Terraformation = new System.Windows.Forms.DataGridView();
             this.cB_Items = new System.Windows.Forms.ComboBox();
+            this.l_itemsInWorld = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dGV_Terraformation)).BeginInit();
             this.SuspendLayout();
             // 
@@ -75,13 +76,24 @@
             this.cB_Items.Name = "cB_Items";
             this.cB_Items.Size = new System.Drawing.Size(179, 23);
             this.cB_Items.TabIndex = 6;
-            this.cB_Items.DropDownClosed += new System.EventHandler(this.cB_Items_DropDownClosed);
+            this.cB_Items.SelectedIndexChanged += new System.EventHandler(this.cB_Items_DropDownClosed);
+            this.cB_Items.SelectionChangeCommitted += new System.EventHandler(this.cB_Items_DropDownClosed);
+            // 
+            // l_itemsInWorld
+            // 
+            this.l_itemsInWorld.AutoSize = true;
+            this.l_itemsInWorld.Location = new System.Drawing.Point(12, 248);
+            this.l_itemsInWorld.Name = "l_itemsInWorld";
+            this.l_itemsInWorld.Size = new System.Drawing.Size(151, 15);
+            this.l_itemsInWorld.TabIndex = 7;
+            this.l_itemsInWorld.Text = "Amount of Items in World: ";
             // 
             // SafefileAnalyzer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(526, 423);
+            this.Controls.Add(this.l_itemsInWorld);
             this.Controls.Add(this.cB_Items);
             this.Controls.Add(this.dGV_Terraformation);
             this.Controls.Add(this.l_player_pos);
@@ -101,5 +113,6 @@
         private Label l_player_pos;
         private DataGridView dGV_Terraformation;
         private ComboBox cB_Items;
+        private Label l_itemsInWorld;
     }
 }
