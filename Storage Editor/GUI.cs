@@ -61,7 +61,15 @@ namespace Storage_Editor
             for (int i = 0; i < _dummy.Length; i++) _playerpos[i] = Convert.ToInt32(Convert.ToDouble(_dummy[i], new CultureInfo("en-US")));
             return _playerpos;
         }
-       
+        private Item[] intA2ItemA(int[] _dummy)
+        {
+            Item[] _i = new Item[0];
+            if (_dummy==null) return _i;
+
+            Item[] _items = new Item[_dummy.Length];
+            return _items;
+        }
+
         private void SafefileAnalyzer_Load(object sender, EventArgs e)
         {
             foreach (string col in Enum.GetNames(typeof(column)))
@@ -142,18 +150,18 @@ namespace Storage_Editor
                         if (!names.Contains(items[i].GId)) names.Add(items[i].GId);
                     }
                     foreach (string name in names) cB_Items.Items.Add(name);
-                    /*itemstrings = sections[3].TrimStart('\r').TrimStart('\n').Split("\n");
+                    itemstrings = sections[3].TrimStart('\r').TrimStart('\n').Split("\n");
                     Container[] containers = new Container[itemstrings.Length];
                     for (int i = 0; i < itemstrings.Length; i++)
                     {
                         containers[i] = new Container
                         (
                             Convert.ToInt32(getSaveGameValue("\"id\":", itemstrings[i], ",")),
-                            stringA2intA(getSaveGameValue("\"woIds\":\"", itemstrings[i], "\",").Split(",")),
+                            intA2ItemA(stringA2intA(getSaveGameValue("\"woIds\":\"", itemstrings[i], "\",").Split(","))),
                             Convert.ToInt32(getSaveGameValue("\"liId\":", itemstrings[i], "}"))
                             
                         );
-                    }*/
+                    }
                 }
             }
             else MessageBox.Show("ERROR:\r\nWrong clipboard format!");
