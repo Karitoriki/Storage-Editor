@@ -65,8 +65,19 @@ namespace Storage_Editor
         {
             Item[] _i = new Item[0];
             if (_dummy==null) return _i;
-
             Item[] _items = new Item[_dummy.Length];
+
+            for (int i = 0; i < _dummy.Length; i++)
+            {
+                foreach (Item _item in items)
+                {
+                    if (_item.Id == _dummy[i])
+                    {
+                        _items[i] = _item;
+                        break;
+                    }
+                }
+            }
             return _items;
         }
 
@@ -154,12 +165,12 @@ namespace Storage_Editor
                     Container[] containers = new Container[itemstrings.Length];
                     for (int i = 0; i < itemstrings.Length; i++)
                     {
+                        
                         containers[i] = new Container
                         (
                             Convert.ToInt32(getSaveGameValue("\"id\":", itemstrings[i], ",")),
                             intA2ItemA(stringA2intA(getSaveGameValue("\"woIds\":\"", itemstrings[i], "\",").Split(","))),
-                            Convert.ToInt32(getSaveGameValue("\"liId\":", itemstrings[i], "}"))
-                            
+                            Convert.ToInt32(getSaveGameValue("\"size\":", itemstrings[i], "}"))
                         );
                     }
                 }
