@@ -13,13 +13,17 @@ namespace Storage_Editor
             InitializeComponent();
         }
         private string[] sections=new string[9];
-        Player player;
-        Terrastat[] Terrainformation = new Terrastat[5];
-        Item[] items;
+        private Player player;
+        private Terrastat[] Terrainformation = new Terrastat[5];
+        List<Item> items = new List<Item>();
+        List<Container> containers = new List<Container>();
 
-        DataTable table = new DataTable();
-        DataSet dataSet = new DataSet();
-        DataRow dr;
+        List<Item> selectedItems = new List<Item>();
+        List<string> names = new List<string>();
+
+        private DataTable table = new DataTable();
+        private DataSet dataSet = new DataSet();
+        private DataRow dr;
 
         enum Stats 
         {
@@ -139,40 +143,45 @@ namespace Storage_Editor
                     player = new Player(stringA2intA(getSaveGameValue("playerPosition\":\"", sections[1], "\"").Split(",")), stringA2intA(getSaveGameValue("playerRotation\":\"", sections[1], "\"").Split(",")), getSaveGameValue("unlockedGroups\":\"", sections[1], "\"").Split(","));
                     l_player_pos.Text += " " + Math.Round(Convert.ToDecimal(player.Position(0)), 0).ToString() + ", " + Math.Round(Convert.ToDecimal(player.Position(1)), 0).ToString() + ", " + Math.Round(Convert.ToDecimal(player.Position(2)), 0).ToString();
 
-                    string[] itemstrings = sections[2].TrimStart('\r').TrimStart('\n').Split("\n");
-                    items = new Item[itemstrings.Length];
-                    List<string> names = new List<string>();
-                    for (int i = 0; i < itemstrings.Length; i++)
+                    string[] itemstrings = sections[2].TrimStart('\r','\n').Split("\n");
+                    foreach (string item in itemstrings)
                     {
-                        items[i] = new Item
+                        Item _dummyItem = new Item
                         (
-                            Convert.ToInt32(getSaveGameValue("\"id\":", itemstrings[i], ",")),
-                            getSaveGameValue("\"gId\":\"", itemstrings[i], "\","),
-                            Convert.ToInt32(getSaveGameValue("\"liId\":", itemstrings[i], ",")),
-                            getSaveGameValue("\"liGrps\":\"", itemstrings[i], "\","),
-                            stringA2intA(getSaveGameValue("\"pos\":\"", itemstrings[i], "\",").Split(",")),
-                            stringA2intA(getSaveGameValue("\"rot\":\"", itemstrings[i], "\",").Split(",")),
-                            Convert.ToInt32(getSaveGameValue("\"wear\":", itemstrings[i], ",")),
-                            stringA2intA(getSaveGameValue("\"pnls\":\"", itemstrings[i], "\",").Split(",")),
-                            getSaveGameValue("\"color\":\"", itemstrings[i], "\","),
-                            getSaveGameValue("\"text\":\"", itemstrings[i], "\","),
-                            Convert.ToInt32(getSaveGameValue("\"grwth\":", itemstrings[i], "}"))
+                            Convert.ToInt32(getSaveGameValue("\"id\":", item, ",")),
+                            getSaveGameValue("\"gId\":\"", item, "\","),
+                            Convert.ToInt32(getSaveGameValue("\"liId\":", item, ",")),
+                            getSaveGameValue("\"liGrps\":\"", item, "\","),
+                            stringA2intA(getSaveGameValue("\"pos\":\"", item, "\",").Split(",")),
+                            stringA2intA(getSaveGameValue("\"rot\":\"", item, "\",").Split(",")),
+                            Convert.ToInt32(getSaveGameValue("\"wear\":", item, ",")),
+                            stringA2intA(getSaveGameValue("\"pnls\":\"", item, "\",").Split(",")),
+                            getSaveGameValue("\"color\":\"", item, "\","),
+                            getSaveGameValue("\"text\":\"", item, "\","),
+                            Convert.ToInt32(getSaveGameValue("\"grwth\":", item, "}"))
                         );
-                        if (!names.Contains(items[i].GId)) names.Add(items[i].GId);
+                        items.Add(_dummyItem);
+                        if (!names.Contains(_dummyItem.GId)) names.Add(_dummyItem.GId);
                     }
                     foreach (string name in names) cB_Items.Items.Add(name);
-                    itemstrings = sections[3].TrimStart('\r').TrimStart('\n').Split("\n");
-                    Container[] containers = new Container[itemstrings.Length];
-                    for (int i = 0; i < itemstrings.Length; i++)
-                    {
-                        
-                        containers[i] = new Container
+
+
+                    itemstrings = sections[3].TrimStart('\r','\n').Split("\n");
+                    foreach(string container in itemstrings)
+                        containers.Add
                         (
-                            Convert.ToInt32(getSaveGameValue("\"id\":", itemstrings[i], ",")),
-                            intA2ItemA(stringA2intA(getSaveGameValue("\"woIds\":\"", itemstrings[i], "\",").Split(","))),
-                            Convert.ToInt32(getSaveGameValue("\"size\":", itemstrings[i], "}"))
+                            new Container
+                            (
+                                Convert.ToInt32(getSaveGameValue("\"id\":", container, ",")),
+                                intA2ItemA(stringA2intA(getSaveGameValue("\"woIds\":\"", container, "\",").Split(","))),
+                                Convert.ToInt32(getSaveGameValue("\"size\":", container, "}"))
+                            )
                         );
-                    }
+                    foreach(Item item in items)
+                        if (item.LiId != 0) 
+                            foreach(Container container in containers)
+                                if(container.Id==item.LiId)
+                                    item.Container=container;
                 }
             }
             else MessageBox.Show("ERROR:\r\nWrong clipboard format!");
@@ -181,10 +190,15 @@ namespace Storage_Editor
 
         private void cB_Items_DropDownClosed(object sender, EventArgs e)
         {
+            selectedItems.Clear();
             int count = 0;
             foreach (Item item in items)
             {
-                if(item.GId==cB_Items.SelectedItem.ToString())count++;
+                if (item.GId == cB_Items.SelectedItem.ToString())
+                {
+                    selectedItems.Add(item);
+                    count++;
+                }
             }
             l_itemsInWorld.Text = "Amount of Items in World: "+count.ToString();
         }

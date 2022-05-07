@@ -40,6 +40,11 @@ namespace Storage_Editor
             { get { return _gId; } }
         public int LiId
             { get { return _liId; } }
+        public Container Container
+        { 
+            get { return _container; } 
+            set { _container = value; }
+        }
         public int[] Pos
             { get { return _pos; } }
         public int[] Rot

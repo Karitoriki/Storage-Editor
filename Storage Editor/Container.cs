@@ -18,6 +18,8 @@ namespace Storage_Editor
             foreach (Item item in items) _items.Add(item);
             _size = size;
         }
+        public int Id
+            { get { return _id; } }
         public int Size
         {
             get { return _size; }

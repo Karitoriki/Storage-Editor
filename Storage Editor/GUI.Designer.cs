@@ -33,6 +33,9 @@
             this.dGV_Terraformation = new System.Windows.Forms.DataGridView();
             this.cB_Items = new System.Windows.Forms.ComboBox();
             this.l_itemsInWorld = new System.Windows.Forms.Label();
+            this.l_selectedItemNumber = new System.Windows.Forms.Label();
+            this.b_selectItemPrevioaus = new System.Windows.Forms.Button();
+            this.b_selectItemNext = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dGV_Terraformation)).BeginInit();
             this.SuspendLayout();
             // 
@@ -88,11 +91,41 @@
             this.l_itemsInWorld.TabIndex = 7;
             this.l_itemsInWorld.Text = "Amount of Items in World: ";
             // 
+            // l_selectedItemNumber
+            // 
+            this.l_selectedItemNumber.AutoSize = true;
+            this.l_selectedItemNumber.Location = new System.Drawing.Point(12, 278);
+            this.l_selectedItemNumber.Name = "l_selectedItemNumber";
+            this.l_selectedItemNumber.Size = new System.Drawing.Size(106, 15);
+            this.l_selectedItemNumber.TabIndex = 7;
+            this.l_selectedItemNumber.Text = "Selected Item No.: ";
+            // 
+            // b_selectItemPrevioaus
+            // 
+            this.b_selectItemPrevioaus.Location = new System.Drawing.Point(12, 296);
+            this.b_selectItemPrevioaus.Name = "b_selectItemPrevioaus";
+            this.b_selectItemPrevioaus.Size = new System.Drawing.Size(64, 23);
+            this.b_selectItemPrevioaus.TabIndex = 8;
+            this.b_selectItemPrevioaus.Text = "previous";
+            this.b_selectItemPrevioaus.UseVisualStyleBackColor = true;
+            // 
+            // b_selectItemNext
+            // 
+            this.b_selectItemNext.Location = new System.Drawing.Point(82, 296);
+            this.b_selectItemNext.Name = "b_selectItemNext";
+            this.b_selectItemNext.Size = new System.Drawing.Size(64, 23);
+            this.b_selectItemNext.TabIndex = 8;
+            this.b_selectItemNext.Text = "next";
+            this.b_selectItemNext.UseVisualStyleBackColor = true;
+            // 
             // SafefileAnalyzer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(526, 423);
+            this.Controls.Add(this.b_selectItemNext);
+            this.Controls.Add(this.b_selectItemPrevioaus);
+            this.Controls.Add(this.l_selectedItemNumber);
             this.Controls.Add(this.l_itemsInWorld);
             this.Controls.Add(this.cB_Items);
             this.Controls.Add(this.dGV_Terraformation);
@@ -114,5 +147,8 @@
         private DataGridView dGV_Terraformation;
         private ComboBox cB_Items;
         private Label l_itemsInWorld;
+        private Label l_selectedItemNumber;
+        private Button b_selectItemPrevioaus;
+        private Button b_selectItemNext;
     }
 }
