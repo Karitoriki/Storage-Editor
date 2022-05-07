@@ -20,7 +20,9 @@ namespace Storage_Editor
         private string _color;
         private string _text;//containers
         private int _grwth;//seed spreaders
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         public Item(int id, string gId, int liId, string liGrps, int[] pos, int[] rot, int wear, int[] pnls, string color, string text, int grwth)
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         {
             _id = id;
             _gId = gId;

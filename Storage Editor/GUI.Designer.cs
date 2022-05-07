@@ -36,6 +36,7 @@
             this.l_selectedItemNumber = new System.Windows.Forms.Label();
             this.b_selectItemPrevioaus = new System.Windows.Forms.Button();
             this.b_selectItemNext = new System.Windows.Forms.Button();
+            this.tB_selectedItemInfos = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dGV_Terraformation)).BeginInit();
             this.SuspendLayout();
             // 
@@ -74,8 +75,9 @@
             // 
             // cB_Items
             // 
+            this.cB_Items.Enabled = false;
             this.cB_Items.FormattingEnabled = true;
-            this.cB_Items.Location = new System.Drawing.Point(12, 222);
+            this.cB_Items.Location = new System.Drawing.Point(12, 237);
             this.cB_Items.Name = "cB_Items";
             this.cB_Items.Size = new System.Drawing.Size(179, 23);
             this.cB_Items.TabIndex = 6;
@@ -85,7 +87,8 @@
             // l_itemsInWorld
             // 
             this.l_itemsInWorld.AutoSize = true;
-            this.l_itemsInWorld.Location = new System.Drawing.Point(12, 248);
+            this.l_itemsInWorld.Enabled = false;
+            this.l_itemsInWorld.Location = new System.Drawing.Point(12, 219);
             this.l_itemsInWorld.Name = "l_itemsInWorld";
             this.l_itemsInWorld.Size = new System.Drawing.Size(151, 15);
             this.l_itemsInWorld.TabIndex = 7;
@@ -94,7 +97,8 @@
             // l_selectedItemNumber
             // 
             this.l_selectedItemNumber.AutoSize = true;
-            this.l_selectedItemNumber.Location = new System.Drawing.Point(12, 278);
+            this.l_selectedItemNumber.Enabled = false;
+            this.l_selectedItemNumber.Location = new System.Drawing.Point(12, 263);
             this.l_selectedItemNumber.Name = "l_selectedItemNumber";
             this.l_selectedItemNumber.Size = new System.Drawing.Size(106, 15);
             this.l_selectedItemNumber.TabIndex = 7;
@@ -102,27 +106,42 @@
             // 
             // b_selectItemPrevioaus
             // 
-            this.b_selectItemPrevioaus.Location = new System.Drawing.Point(12, 296);
+            this.b_selectItemPrevioaus.Enabled = false;
+            this.b_selectItemPrevioaus.Location = new System.Drawing.Point(12, 281);
             this.b_selectItemPrevioaus.Name = "b_selectItemPrevioaus";
             this.b_selectItemPrevioaus.Size = new System.Drawing.Size(64, 23);
             this.b_selectItemPrevioaus.TabIndex = 8;
             this.b_selectItemPrevioaus.Text = "previous";
             this.b_selectItemPrevioaus.UseVisualStyleBackColor = true;
+            this.b_selectItemPrevioaus.Click += new System.EventHandler(this.b_selectItemPrevioaus_Click);
             // 
             // b_selectItemNext
             // 
-            this.b_selectItemNext.Location = new System.Drawing.Point(82, 296);
+            this.b_selectItemNext.Enabled = false;
+            this.b_selectItemNext.Location = new System.Drawing.Point(82, 281);
             this.b_selectItemNext.Name = "b_selectItemNext";
             this.b_selectItemNext.Size = new System.Drawing.Size(64, 23);
             this.b_selectItemNext.TabIndex = 8;
             this.b_selectItemNext.Text = "next";
             this.b_selectItemNext.UseVisualStyleBackColor = true;
+            this.b_selectItemNext.Click += new System.EventHandler(this.b_selectItemNext_Click);
+            // 
+            // tB_selectedItemInfos
+            // 
+            this.tB_selectedItemInfos.BackColor = System.Drawing.SystemColors.Control;
+            this.tB_selectedItemInfos.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.tB_selectedItemInfos.Location = new System.Drawing.Point(12, 310);
+            this.tB_selectedItemInfos.Multiline = true;
+            this.tB_selectedItemInfos.Name = "tB_selectedItemInfos";
+            this.tB_selectedItemInfos.Size = new System.Drawing.Size(134, 143);
+            this.tB_selectedItemInfos.TabIndex = 9;
             // 
             // SafefileAnalyzer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(526, 423);
+            this.ClientSize = new System.Drawing.Size(526, 465);
+            this.Controls.Add(this.tB_selectedItemInfos);
             this.Controls.Add(this.b_selectItemNext);
             this.Controls.Add(this.b_selectItemPrevioaus);
             this.Controls.Add(this.l_selectedItemNumber);
@@ -150,5 +169,6 @@
         private Label l_selectedItemNumber;
         private Button b_selectItemPrevioaus;
         private Button b_selectItemNext;
+        private TextBox tB_selectedItemInfos;
     }
 }

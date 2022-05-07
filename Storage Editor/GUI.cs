@@ -15,23 +15,25 @@ namespace Storage_Editor
         private string[] sections=new string[9];
         private Player player;
         private Terrastat[] Terrainformation = new Terrastat[5];
-        List<Item> items = new List<Item>();
-        List<Container> containers = new List<Container>();
+        private List<Item> items = new List<Item>();
+        private List<Container> containers = new List<Container>();
 
-        List<Item> selectedItems = new List<Item>();
-        List<string> names = new List<string>();
+        private List<string> names = new List<string>();
 
         private DataTable table = new DataTable();
         private DataSet dataSet = new DataSet();
         private DataRow dr;
 
+        private List<Item> selectedItems = new List<Item>();
+        private int selectedItemIndex = new int();
+
         enum Stats 
         {
-            Oxygen = 0,
-            Heat = 1,
-            Pressure = 2,
-            Biomass = 3,
-            Terraformation = 4
+            Oxygen,
+            Heat,
+            Pressure,
+            Biomass,
+            Terraformation
         }
         enum column
         {
@@ -164,6 +166,8 @@ namespace Storage_Editor
                         if (!names.Contains(_dummyItem.GId)) names.Add(_dummyItem.GId);
                     }
                     foreach (string name in names) cB_Items.Items.Add(name);
+                    l_itemsInWorld.Enabled = true;
+                    cB_Items.Enabled = true;
 
 
                     itemstrings = sections[3].TrimStart('\r','\n').Split("\n");
@@ -191,16 +195,35 @@ namespace Storage_Editor
         private void cB_Items_DropDownClosed(object sender, EventArgs e)
         {
             selectedItems.Clear();
-            int count = 0;
             foreach (Item item in items)
             {
-                if (item.GId == cB_Items.SelectedItem.ToString())
-                {
-                    selectedItems.Add(item);
-                    count++;
-                }
+                if (item.GId == cB_Items.SelectedItem.ToString())selectedItems.Add(item);
             }
-            l_itemsInWorld.Text = "Amount of Items in World: "+count.ToString();
+            l_itemsInWorld.Text = "Amount of Items in World: "+ selectedItems.Count.ToString();
+            selectedItemIndex = 0;
+            updateSelectedItem();
+            l_selectedItemNumber.Enabled = true;
+            b_selectItemPrevioaus.Enabled = true;
+            b_selectItemNext.Enabled = true;
+        }
+
+        private void b_selectItemPrevioaus_Click(object sender, EventArgs e)
+        {
+            if (selectedItemIndex > 0) selectedItemIndex--;
+            updateSelectedItem();
+        }
+
+        private void b_selectItemNext_Click(object sender, EventArgs e)
+        {
+            if (selectedItemIndex < selectedItems.Count) selectedItemIndex++;
+            updateSelectedItem();
+        }
+        private void updateSelectedItem()
+        {
+            l_selectedItemNumber.Text = "Selected Item No.: " + selectedItemIndex.ToString();
+            string info =
+                "Name: " + selectedItems[selectedItemIndex].GId + "" +
+                "Position: "+ selectedItems[selectedItemIndex].Pos[0].ToString() + selectedItems[selectedItemIndex].Pos[1].ToString() + selectedItems[selectedItemIndex].Pos[2].ToString() +
         }
     }
 }
