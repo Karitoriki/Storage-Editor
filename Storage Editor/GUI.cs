@@ -77,7 +77,7 @@ namespace Storage_Editor
             {
                 foreach (Item _item in items)
                 {
-                    if (_item.Id == _dummy[i])
+                    if (_item.id == _dummy[i])
                     {
                         _items[i] = _item;
                         break;
@@ -117,6 +117,7 @@ namespace Storage_Editor
 
         private void updateSelectedItem()
         {
+            Item _item = selectedItems[selectedItemIndex];
             if (selectedItemIndex + 1 < selectedItems.Count && selectedItems.Count != 1)
                 b_selectItemNext.Enabled = true;
             else b_selectItemNext.Enabled = false;
@@ -127,12 +128,32 @@ namespace Storage_Editor
 
 
             l_selectedItemNumber.Text = "Selected Item No.: " + selectedItemIndex.ToString();
+            string contains = "";
             string info =
-                "Name: " + selectedItems[selectedItemIndex].GId + "\r\n";
-            if (selectedItems[selectedItemIndex].Pos[0] != 0 && selectedItems[selectedItemIndex].Pos[1] != 0 && selectedItems[selectedItemIndex].Pos[2] != 0)
-                info += "Position: " + selectedItems[selectedItemIndex].Pos[0].ToString() + ", " + selectedItems[selectedItemIndex].Pos[1].ToString() + ", " + selectedItems[selectedItemIndex].Pos[2].ToString();
+                "Id: " + _item.id + "\r\n"+
+                "Name: " + _item.gId + "\r\n";
+            if (_item.liId != 0)
+            {
+                contains = "Id: " + _item.Container.id;
+                Item[] containedItems = _item.Container.Items();
+                List<string> namelist = new List<string>();
+                foreach (Item citem in containedItems)
+                    if(!namelist.Contains(citem.gId))
+                        namelist.Add(citem.gId);
+                
+                foreach(string name in namelist)
+                {
+                    int count = 0;
+                    foreach (Item citem in containedItems)
+                        if (name==citem.gId)count++;
+                    contains += count.ToString() + "x " + name + "\r\n";
+                }
+            }
+            if (_item.pos[0] != 0 && _item.pos[1] != 0 && _item.pos[2] != 0)
+                info += "Position: " + _item.pos[0].ToString() + ", " + _item.pos[1].ToString() + ", " + _item.pos[2].ToString();
 
             tB_selectedItemInfos.Text = info;
+            tB_contains.Text = contains;
         }
 
 
@@ -182,8 +203,9 @@ namespace Storage_Editor
                             Convert.ToInt32(getSaveGameValue("\"grwth\":", item, "}"))
                         );
                         items.Add(_dummyItem);
-                        if (!names.Contains(_dummyItem.GId)) names.Add(_dummyItem.GId);
+                        if (!names.Contains(_dummyItem.gId)) names.Add(_dummyItem.gId);
                     }
+                    names.Sort();
                     foreach (string name in names) cB_Items.Items.Add(name);
                     l_itemsInWorld.Enabled = true;
                     cB_Items.Enabled = true;
@@ -201,9 +223,9 @@ namespace Storage_Editor
                             )
                         );
                     foreach(Item item in items)
-                        if (item.LiId != 0) 
+                        if (item.liId != 0) 
                             foreach(Container container in containers)
-                                if(container.Id==item.LiId)
+                                if(container.id==item.liId)
                                     item.Container=container;
                 }
             }
@@ -216,7 +238,7 @@ namespace Storage_Editor
             selectedItems.Clear();
             foreach (Item item in items)
             {
-                if (item.GId == cB_Items.SelectedItem.ToString())selectedItems.Add(item);
+                if (item.gId == cB_Items.SelectedItem.ToString())selectedItems.Add(item);
             }
             l_itemsInWorld.Text = "Amount of Items in World: "+ selectedItems.Count.ToString();
             selectedItemIndex = 0;
@@ -228,7 +250,6 @@ namespace Storage_Editor
         {
             if (selectedItemIndex > 0) selectedItemIndex--;
             updateSelectedItem();
-            
         }
 
         private void b_selectItemNext_Click(object sender, EventArgs e)
@@ -238,3 +259,4 @@ namespace Storage_Editor
         }
     }
 }
+// openFileDialog1.Filter = "Planet Crafter Savefile(*.json)|*.json";

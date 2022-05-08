@@ -36,28 +36,28 @@ namespace Storage_Editor
             _text = text;
             _grwth = grwth;
         }
-        public int Id
+        public int id
             { get { return _id; } }
-        public string GId
+        public string gId
             { get { return _gId; } }
-        public int LiId
+        public int liId
             { get { return _liId; } }
         public Container Container
         { 
             get { return _container; } 
             set { _container = value; }
         }
-        public int[] Pos
+        public int[] pos
             { get { return _pos; } }
-        public int[] Rot
+        public int[] rot
             { get { return _rot; } }
-        public int Wear
+        public int wear
             { get { return _wear; } }
-        public int[] Pnls
+        public int[] pnls
             { get { return _pnls; } }
-        public string Text
+        public string text
             { get { return _text; } }
-        public int Grwth
+        public int grwth
             { get { return _grwth; } }
 
     }

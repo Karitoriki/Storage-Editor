@@ -37,6 +37,7 @@
             this.b_selectItemPrevioaus = new System.Windows.Forms.Button();
             this.b_selectItemNext = new System.Windows.Forms.Button();
             this.tB_selectedItemInfos = new System.Windows.Forms.TextBox();
+            this.tB_contains = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dGV_Terraformation)).BeginInit();
             this.SuspendLayout();
             // 
@@ -136,11 +137,23 @@
             this.tB_selectedItemInfos.Size = new System.Drawing.Size(179, 143);
             this.tB_selectedItemInfos.TabIndex = 9;
             // 
+            // tB_contains
+            // 
+            this.tB_contains.BackColor = System.Drawing.SystemColors.Control;
+            this.tB_contains.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.tB_contains.Location = new System.Drawing.Point(197, 310);
+            this.tB_contains.Multiline = true;
+            this.tB_contains.Name = "tB_contains";
+            this.tB_contains.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.tB_contains.Size = new System.Drawing.Size(179, 143);
+            this.tB_contains.TabIndex = 9;
+            // 
             // SafefileAnalyzer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(526, 465);
+            this.Controls.Add(this.tB_contains);
             this.Controls.Add(this.tB_selectedItemInfos);
             this.Controls.Add(this.b_selectItemNext);
             this.Controls.Add(this.b_selectItemPrevioaus);
@@ -170,5 +183,6 @@
         private Button b_selectItemPrevioaus;
         private Button b_selectItemNext;
         private TextBox tB_selectedItemInfos;
+        private TextBox tB_contains;
     }
 }
