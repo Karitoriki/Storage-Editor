@@ -134,7 +134,7 @@ namespace Storage_Editor
                 "Name: " + _item.gId + "\r\n";
             if (_item.liId != 0)
             {
-                contains = "Id: " + _item.Container.id;
+                contains = "Id: " + _item.Container.id + "\r\n";
                 Item[] containedItems = _item.Container.Items();
                 List<string> namelist = new List<string>();
                 foreach (Item citem in containedItems)
