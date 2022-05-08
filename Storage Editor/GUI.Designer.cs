@@ -109,7 +109,7 @@
             this.b_selectItemPrevioaus.Enabled = false;
             this.b_selectItemPrevioaus.Location = new System.Drawing.Point(12, 281);
             this.b_selectItemPrevioaus.Name = "b_selectItemPrevioaus";
-            this.b_selectItemPrevioaus.Size = new System.Drawing.Size(64, 23);
+            this.b_selectItemPrevioaus.Size = new System.Drawing.Size(86, 23);
             this.b_selectItemPrevioaus.TabIndex = 8;
             this.b_selectItemPrevioaus.Text = "previous";
             this.b_selectItemPrevioaus.UseVisualStyleBackColor = true;
@@ -118,9 +118,9 @@
             // b_selectItemNext
             // 
             this.b_selectItemNext.Enabled = false;
-            this.b_selectItemNext.Location = new System.Drawing.Point(82, 281);
+            this.b_selectItemNext.Location = new System.Drawing.Point(105, 281);
             this.b_selectItemNext.Name = "b_selectItemNext";
-            this.b_selectItemNext.Size = new System.Drawing.Size(64, 23);
+            this.b_selectItemNext.Size = new System.Drawing.Size(86, 23);
             this.b_selectItemNext.TabIndex = 8;
             this.b_selectItemNext.Text = "next";
             this.b_selectItemNext.UseVisualStyleBackColor = true;
@@ -133,7 +133,7 @@
             this.tB_selectedItemInfos.Location = new System.Drawing.Point(12, 310);
             this.tB_selectedItemInfos.Multiline = true;
             this.tB_selectedItemInfos.Name = "tB_selectedItemInfos";
-            this.tB_selectedItemInfos.Size = new System.Drawing.Size(134, 143);
+            this.tB_selectedItemInfos.Size = new System.Drawing.Size(179, 143);
             this.tB_selectedItemInfos.TabIndex = 9;
             // 
             // SafefileAnalyzer

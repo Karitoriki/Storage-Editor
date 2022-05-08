@@ -115,6 +115,25 @@ namespace Storage_Editor
             }
         }
 
+        private void updateSelectedItem()
+        {
+            if (selectedItemIndex + 1 < selectedItems.Count && selectedItems.Count != 1)
+                b_selectItemNext.Enabled = true;
+            else b_selectItemNext.Enabled = false;
+
+            if (selectedItemIndex > 0)
+                b_selectItemPrevioaus.Enabled = true;
+            else b_selectItemPrevioaus.Enabled = false;
+
+
+            l_selectedItemNumber.Text = "Selected Item No.: " + selectedItemIndex.ToString();
+            string info =
+                "Name: " + selectedItems[selectedItemIndex].GId + "\r\n";
+            if (selectedItems[selectedItemIndex].Pos[0] != 0 && selectedItems[selectedItemIndex].Pos[1] != 0 && selectedItems[selectedItemIndex].Pos[2] != 0)
+                info += "Position: " + selectedItems[selectedItemIndex].Pos[0].ToString() + ", " + selectedItems[selectedItemIndex].Pos[1].ToString() + ", " + selectedItems[selectedItemIndex].Pos[2].ToString();
+
+            tB_selectedItemInfos.Text = info;
+        }
 
 
         private void b_clipboard_Click(object sender, EventArgs e)
@@ -203,27 +222,19 @@ namespace Storage_Editor
             selectedItemIndex = 0;
             updateSelectedItem();
             l_selectedItemNumber.Enabled = true;
-            b_selectItemPrevioaus.Enabled = true;
-            b_selectItemNext.Enabled = true;
         }
 
         private void b_selectItemPrevioaus_Click(object sender, EventArgs e)
         {
             if (selectedItemIndex > 0) selectedItemIndex--;
             updateSelectedItem();
+            
         }
 
         private void b_selectItemNext_Click(object sender, EventArgs e)
         {
-            if (selectedItemIndex < selectedItems.Count) selectedItemIndex++;
+            if (selectedItemIndex+1 < selectedItems.Count) selectedItemIndex++;
             updateSelectedItem();
-        }
-        private void updateSelectedItem()
-        {
-            l_selectedItemNumber.Text = "Selected Item No.: " + selectedItemIndex.ToString();
-            string info =
-                "Name: " + selectedItems[selectedItemIndex].GId + "" +
-                "Position: "+ selectedItems[selectedItemIndex].Pos[0].ToString() + selectedItems[selectedItemIndex].Pos[1].ToString() + selectedItems[selectedItemIndex].Pos[2].ToString() +
         }
     }
 }
