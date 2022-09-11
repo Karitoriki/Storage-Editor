@@ -38,6 +38,7 @@
             this.b_selectItemNext = new System.Windows.Forms.Button();
             this.tB_selectedItemInfos = new System.Windows.Forms.TextBox();
             this.tB_contains = new System.Windows.Forms.TextBox();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dGV_Terraformation)).BeginInit();
             this.SuspendLayout();
             // 
@@ -148,11 +149,22 @@
             this.tB_contains.Size = new System.Drawing.Size(179, 143);
             this.tB_contains.TabIndex = 9;
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(440, 237);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 10;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // SafefileAnalyzer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(526, 465);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.tB_contains);
             this.Controls.Add(this.tB_selectedItemInfos);
             this.Controls.Add(this.b_selectItemNext);
@@ -184,5 +196,6 @@
         private Button b_selectItemNext;
         private TextBox tB_selectedItemInfos;
         private TextBox tB_contains;
+        private Button button1;
     }
 }

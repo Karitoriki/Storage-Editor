@@ -14,7 +14,7 @@ namespace Storage_Editor
         }
         private string[] sections=new string[9];
         private Player player;
-        private Terrastat[] Terrainformation = new Terrastat[5];
+        private Terrastat[] Terrainformation = new Terrastat[7];
         private List<Item> items = new List<Item>();
         private List<Container> containers = new List<Container>();
 
@@ -32,7 +32,9 @@ namespace Storage_Editor
             Oxygen,
             Heat,
             Pressure,
-            Biomass,
+            Plants,
+            Insects,
+            Animals,
             Terraformation
         }
         enum column
@@ -164,21 +166,21 @@ namespace Storage_Editor
                 sections = Clipboard.GetText().Split("@");
                 if (sections != null)
                 {
-                    string[] Statunits = new string[5] { "ppq,ppt,ppb,ppm,pcm", "pK,nK,µK,mK,K", "nPa,µPa,mPa,Pa,pcm", "g,kg,t,kt,mt", "Ti,kTi,MTi,GTi,TTi" };
-                    Terrainformation[4] = new Terrastat(nameof(Stats.Terraformation), 0, Statunits[4].Split(","));
-                    for (int i = 0; i < 4; i++)
+                    string[] Statunits = new string[7] { "ppq,ppt,ppb,ppm,pcm", "pK,nK,µK,mK,K", "nPa,µPa,mPa,Pa,pcm", "g,kg,t,kt,mt", "g,kg,t,kt,mt", "g,kg,t,kt,mt", "Ti,kTi,MTi,GTi,TTi" };
+                    Terrainformation[6] = new Terrastat(nameof(Stats.Terraformation), 0, Statunits[6].Split(","));
+                    for (int i = 0; i < 6; i++)
                     {
 #pragma warning disable CS8604 // Possible null reference argument.
                         Terrainformation[i] = new Terrastat(Enum.GetName(typeof(Stats), i), Convert.ToInt64(getSaveGameValue("unit" + (Stats)i + "Level\":", sections[0], ".")), Statunits[i].Split(","));
-                        Terrainformation[4].Stat += Terrainformation[i].Stat;
+                        Terrainformation[6].Stat += Terrainformation[i].Stat;
 
                         changeTableValue(Enum.GetName(typeof(Stats), i), Enum.GetName(column.ActualValue), Terrainformation[i].Stat.ToString());
                     }
-                    for (int i = 0; i < 4; i++)
+                    for (int i = 0; i < 6; i++)
                     {
                         changeTableValue(Enum.GetName(typeof(Stats), i), Enum.GetName(column.RelativePercent), Terrainformation[i].Percentage(Terrainformation[4].Stat));
                     }
-                    changeTableValue(Enum.GetName(typeof(Stats), 4), "ActualValue", Terrainformation[4].Stat.ToString());
+                    changeTableValue(Enum.GetName(typeof(Stats), 6), "ActualValue", Terrainformation[6].Stat.ToString());
 #pragma warning restore CS8604 // Possible null reference argument.
 
 
@@ -256,6 +258,16 @@ namespace Storage_Editor
         {
             if (selectedItemIndex+1 < selectedItems.Count) selectedItemIndex++;
             updateSelectedItem();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            string dummy="";
+            foreach (Item item in items)
+            {
+                dummy+=item.id.ToString() + " " + item.gId + " " + item.pos[0].ToString() + "\n\r";
+            }
+            Clipboard.SetText(dummy);
         }
     }
 }
